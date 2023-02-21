@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+.parcel-cache
+dist/
+build/
+data.mdb
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+.vscode
+
