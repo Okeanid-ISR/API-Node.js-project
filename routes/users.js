@@ -40,3 +40,30 @@ router.post("/", async (req, res) => {
     }
 })
 
+router.post("/login", async (req, res) => {
+    let validateBody = validateLogin(req.body)
+    if (validateBody.error) {
+        res.json(validateBody.error.details)
+    }
+    try {
+        let user = await UserModel.findOne({email: req.email.body})
+        if (!user) {
+            return res.status(401).json({error:"Email not found!"})
+        }
+
+        let passwordValid = await bcrypt.compare(req.body.password, user.password)
+        if(!passwordValid){
+            return res.status(401).json({error:"Password was wrong!"})
+        }
+
+        let token = createToken(user._id)
+
+        return res.json({token})
+
+    } catch (error) {
+        console.log(error);
+        res.status(502).json({error})
+    }
+})
+
+module.exports = router;
