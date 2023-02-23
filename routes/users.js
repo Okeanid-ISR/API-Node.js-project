@@ -21,17 +21,22 @@ router.get("/userInfo", auth, async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    let validateBody = new validateJoi(req.body)
+    let validateBody = validateJoi(req.body)
     if (validateBody.error) {
         res.status(400).json(validateBody.error.details)
     }
     try {
-
+        let user = new UserModel(req.body)
+        user.password = await bcrypt.hash(user.password, 10)
+        await user.save()
+        user.password = "**********"
+        res.status(201).json(user)
     } catch (error) {
         if (error.code === 11000) {
-            return res.status(400).json({msg:"This email is already exists in system!",code:1100})
+            return res.status(400).json({msg: "This email is already exists in system!", code: 1100})
         }
         console.log(error)
         res.status(502).json({error})
     }
 })
+
