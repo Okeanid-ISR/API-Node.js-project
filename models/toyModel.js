@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 const Joi = require("joi")
-const { config } = require("../config/secret");
 
 let toySchema = new mongoose.Schema({
     name: String,
@@ -20,10 +19,10 @@ exports.ToyModel = mongoose.model("toys", toySchema)
 exports.validateToy = (_reqBody) => {
     let joiSchema = Joi.object({
         name: Joi.string().min(2).max(150).required(),
-        info: Joi.string().min(2).max(350).required(),
-        category: Joi.number().min(2).max(30).required(),
+        info: Joi.string().min(2).max(600).required(),
+        category: Joi.string().min(2).max(50).required(),
         img_url: Joi.string().min(2).max(150).allow(null,""),
-        price: Joi.string().min(2).max(5000).required(),
+        price: Joi.number().min(2).max(5000).required(),
     })
     return joiSchema.validate(_reqBody)
 }

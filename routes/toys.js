@@ -3,20 +3,21 @@ const {validateToy, ToyModel} = require("../models/toyModel");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+    let perPage = req.query.perPage ? Math.min(req.query.perPage , 10) : 5
+    let page = req.query.page ? req.query.page - 1 : 0;
+    // http://localhost:3001/books?page=2
     try {
         let data = await ToyModel
             .find({})
-            .limit(10)
-
-
+            .limit(perPage)
+            .skip(page * perPage)
+        // http://localhost:3001/books?perPage=5&sort=cat_url
         res.json(data)
-
     } catch (err) {
         console.log(err)
-        res.status(502).json(err)
+        res.status(502).json({err})
     }
 })
-
 router.post("/", async (req, res) => {
     let validBody = validateToy(req.body);
     if (validBody.error) {
