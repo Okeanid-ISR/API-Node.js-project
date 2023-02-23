@@ -1,10 +1,11 @@
 const express = require("express");
-const { auth } = require("../middlewares/auth");
+const {auth} = require("../middlewares/auth");
 const {validateToy, ToyModel} = require("../models/toyModel");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    let perPage = req.query.perPage ? Math.min(req.query.perPage , 10) : 5
+    let sort = req.query.sort || "_id"
+    let perPage = req.query.perPage ? Math.min(req.query.perPage, 10) : 5
     let page = req.query.page ? req.query.page - 1 : 0;
     // http://localhost:3001/books?page=2
     try {
@@ -12,6 +13,8 @@ router.get("/", async (req, res) => {
             .find({})
             .limit(perPage)
             .skip(page * perPage)
+            .sort({[sort]: 1})
+
         // http://localhost:3001/books?perPage=5&sort=cat_url
         res.json(data)
     } catch (err) {
@@ -72,15 +75,28 @@ router.get("/category", async (req, res) => {
     }
 })
 
+router.get('/single/:id', async (req, res) => {
+    const toyId = req.params.id;
+
+    try {
+        const toy = await ToyModel.findOne({_id: toyId})
+        res.json(toy);
+
+    } catch (error) {
+        console.log(error)
+        res.status(502).json({error})
+    }
+});
+
 router.put("/:id", auth, async (req, res) => {
-    let validateBody =  validateToy(req.body)
+    let validateBody = validateToy(req.body)
     if (validateBody.error) {
         res.status(400).json(validateBody.error.details)
     }
 
     try {
         let id = req.params.id
-        let data = await ToyModel.updateOne({_id: id},req.body)
+        let data = await ToyModel.updateOne({_id: id}, req.body)
         res.json(data)
 
     } catch (error) {
