@@ -1,14 +1,13 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const {auth} = require("../middlewares/auth");
-const {validateJoi, UserModel, validateLogin, createToken} = require("../models/userModel");
+const {validateUser, UserModel, validateLogin, createToken} = require("../models/userModel");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
     res.json({msg: "Users endpoint"});
 })
-
 
 router.get("/userInfo", auth, async (req, res) => {
     try {
@@ -21,7 +20,7 @@ router.get("/userInfo", auth, async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    let validateBody = validateJoi(req.body)
+    let validateBody = validateUser(req.body)
     if (validateBody.error) {
         res.status(400).json(validateBody.error.details)
     }
@@ -40,29 +39,27 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
-    let validateBody = validateLogin(req.body)
-    if (validateBody.error) {
-        res.json(validateBody.error.details)
+router.post("/login", async(req,res) => {
+    let validBody = validateLogin(req.body);
+    if(validBody.error){
+        return res.status(400).json(validBody.error.details);
     }
-    try {
-        let user = await UserModel.findOne({email: req.email.body})
-        if (!user) {
-            return res.status(401).json({error:"Email not found!"})
+    try{
+        let user = await UserModel.findOne({email:req.body.email});
+        if(!user){
+            return res.status(401).json({err:"Email was not found!"});
         }
-
-        let passwordValid = await bcrypt.compare(req.body.password, user.password)
+        let passwordValid = await bcrypt.compare(req.body.password, user.password);
         if(!passwordValid){
-            return res.status(401).json({error:"Password was wrong!"})
+            return res.status(401).json({err:"Password was wrong!"});
         }
-
         let token = createToken(user._id)
 
         return res.json({token})
-
-    } catch (error) {
-        console.log(error);
-        res.status(502).json({error})
+    }
+    catch(err){
+        console.log(err);
+        res.status(502).json({err})
     }
 })
 
