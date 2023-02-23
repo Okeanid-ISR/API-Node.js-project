@@ -48,15 +48,26 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+router.get("/search", async (req, res) => {
+    try {
+        let s = req.query.s
+        let data = await ToyModel.find({name: s})
+        res.json(data)
+    } catch (err) {
+        console.log(err)
+        res.status(502).json({err})
+    }
+})
+
 router.put("/:id", async (req, res) => {
     let validateBody =  validateToy(req.body)
     if (validateBody.error) {
-        res.status(502).json(validateBody.error.details)
+        res.status(400).json(validateBody.error.details)
     }
 
     try {
         let id = req.params.id
-        let data = await ToyModel.updateOne({_id: id})
+        let data = await ToyModel.updateOne({_id: id},req.body)
         res.json(data)
 
     } catch (error) {
