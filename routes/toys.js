@@ -47,6 +47,22 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+router.put("/:id", async (req, res) => {
+    let validateBody = new validateToy(req.body)
+    if (validateBody.error) {
+        res.status(502).json(validateBody.error.details)
+    }
 
+    try {
+        let id = req.params.id
+        let data = await ToyModel.updateOne({_id: id})
+        res.json(data)
+
+    } catch (error) {
+        console.log(error)
+        res.status(502).json({error})
+    }
+
+})
 
 module.exports = router;
