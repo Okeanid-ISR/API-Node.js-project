@@ -25,6 +25,7 @@ router.post("/", async (req, res) => {
 
     try {
         let toy = new ToyModel(req.body)
+
         await toy.save();
         res.json(toy)
 
@@ -48,7 +49,7 @@ router.delete("/:id", async (req, res) => {
 })
 
 router.put("/:id", async (req, res) => {
-    let validateBody = new validateToy(req.body)
+    let validateBody =  validateToy(req.body)
     if (validateBody.error) {
         res.status(502).json(validateBody.error.details)
     }
