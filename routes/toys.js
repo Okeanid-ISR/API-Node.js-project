@@ -35,6 +35,18 @@ router.post("/", async (req, res) => {
 
 })
 
+router.delete("/:id", async (req, res) => {
+    try {
+        let id = req.params.id
+        let data = await ToyModel.deleteOne({_id: id})
+        res.json(data)
+
+    } catch (error) {
+        console.log(error)
+        res.status(502).json({error})
+    }
+})
+
 
 
 module.exports = router;
