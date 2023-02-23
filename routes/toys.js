@@ -59,6 +59,17 @@ router.get("/search", async (req, res) => {
     }
 })
 
+router.get("/category", async (req, res) => {
+    try {
+        let cat = req.query.cat
+        let data = await ToyModel.find({category: cat})
+        res.json(data)
+    } catch (err) {
+        console.log(err)
+        res.status(502).json({err})
+    }
+})
+
 router.put("/:id", async (req, res) => {
     let validateBody =  validateToy(req.body)
     if (validateBody.error) {
