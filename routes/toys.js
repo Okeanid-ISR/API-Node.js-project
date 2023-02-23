@@ -1,4 +1,5 @@
 const express = require("express");
+const { auth } = require("../middlewares/auth");
 const {validateToy, ToyModel} = require("../models/toyModel");
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get("/", async (req, res) => {
         res.status(502).json({err})
     }
 })
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     let validBody = validateToy(req.body);
     if (validBody.error) {
         return res.status(400).json(validBody.error.details);
@@ -37,7 +38,7 @@ router.post("/", async (req, res) => {
 
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     try {
         let id = req.params.id
         let data = await ToyModel.deleteOne({_id: id})
@@ -71,7 +72,7 @@ router.get("/category", async (req, res) => {
     }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
     let validateBody =  validateToy(req.body)
     if (validateBody.error) {
         res.status(400).json(validateBody.error.details)
