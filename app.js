@@ -4,13 +4,17 @@ import path from "path";
 
 import express from "express";
 
-require("./src/db/mongoConnect");
 
+import { dirname } from 'path'
+import { fileURLToPath} from 'url'
 import {config} from "dotenv";
 import {routesInit} from "./src/routes/configRoutes.js";
+import {main} from "./src/db/mongoConnect.js";
 
 // const cors  = require("cors"); мидлвер
+main().catch((err) => console.log(err))
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 config();
 

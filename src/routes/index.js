@@ -1,4 +1,4 @@
-import toysR from './toys'
-import usersR from './users'
+import toysR from './toys.js'
+import usersR from './users.js'
 
 export default { toysR, usersR }

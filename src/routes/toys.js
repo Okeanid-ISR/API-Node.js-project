@@ -1,7 +1,7 @@
-import express, {Router} from 'express'
+import express, { Router } from 'express'
 
-import { ToyModel, validateToy } from '../models/toyModel'
-import { auth } from '../middlewares/auth'
+import { ToyModel, validateToy } from '../models/toyModel.js'
+import { auth } from '../middlewares/auth.js'
 
 const toysR = Router()
 

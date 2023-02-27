@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 
-import { config } from '../config/secret'
 
 import Joi from 'joi'
 
 import mongoose from 'mongoose'
+import {tokenSecret} from "../config/secret.js";
 
 let schema = new mongoose.Schema({
   name: String,
@@ -20,7 +20,7 @@ let schema = new mongoose.Schema({
 export const UserModel = mongoose.model('users', schema)
 
 export function createToken(user_id) {
-  let token = jwt.sign({ _id: user_id }, config.tokenSecret, { expiresIn: '600mins' })
+  let token = jwt.sign({ _id: user_id }, tokenSecret, { expiresIn: '600mins' })
   return token
 }
 

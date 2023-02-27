@@ -1,5 +1,6 @@
-import { config } from '../config/secret'
+
 import jwt from 'jsonwebtoken'
+import {tokenSecret} from "../config/secret.js";
 
 export const auth = (req, res, next) => {
   let token = req.header('x-api-key')
@@ -7,7 +8,7 @@ export const auth = (req, res, next) => {
     return res.status(401).json({ err: 'You must send token to this endpoint ' })
   }
   try {
-    let decodeToken = jwt.verify(token, config.tokenSecret)
+    let decodeToken = jwt.verify(token, tokenSecret)
     req.tokenData = decodeToken
 
     next()

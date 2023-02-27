@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 
 import { auth } from '../middlewares/auth.js'
 
-import { createToken, UserModel, validateLogin, validateUser } from '../models/userModel'
+import { createToken, UserModel, validateLogin, validateUser } from '../models/userModel.js'
 
 const usersR = express.Router()
 
