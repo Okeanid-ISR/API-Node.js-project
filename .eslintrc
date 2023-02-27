@@ -1,0 +1,48 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "react/prop-types": 0,
+    "no-console": 1,
+    "react-hooks/rules-of-hooks": 2,
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".ts", ".tsx", ".js", ".jsx"]
+      }
+    ],
+    "no-nested-ternary": "off",
+    "import/prefer-default-export": "off"
+  },
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "react-hooks",
+    "tailwindcss"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "commonjs": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
