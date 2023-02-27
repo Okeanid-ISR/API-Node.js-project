@@ -12,9 +12,9 @@ export default class ToyItem {
     }
 
     render() {
-        let div = document.createElement("div");
-        document.querySelector(this.parent).append(div);
-        div.innerHTML = `
+        let tr = document.createElement("tr");
+        document.querySelector(this.parent).append(tr);
+        tr.innerHTML = `
     <td>${this.index + 1}</td>
     <td>${this.name}</td>
     <td>${this.info}</td>
