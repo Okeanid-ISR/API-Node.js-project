@@ -5,7 +5,6 @@ const mongoURL = `mongodb+srv://${mongoUser}:${mongoPass}@cluster0.zg221i8.mongo
 
 export default mongoURL
 
-
 export async function main() {
   mongoose.set('strictQuery', false)
   await mongoose.connect(mongoURL)
