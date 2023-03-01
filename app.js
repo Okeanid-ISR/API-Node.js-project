@@ -4,8 +4,8 @@ import path from "path";
 
 import express from "express";
 
-import { dirname } from 'path'
-import { fileURLToPath} from 'url'
+import {dirname} from 'path'
+import {fileURLToPath} from 'url'
 import {config} from "dotenv";
 import {routesInit} from "./src/routes/configRoutes.js";
 import {main} from "./src/db/mongoConnect.js";

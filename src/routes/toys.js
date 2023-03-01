@@ -23,6 +23,7 @@ toysR.get('/', async (req, res) => {
     res.status(502).json({ err })
   }
 })
+
 toysR.post('/', auth, async (req, res) => {
   let validBody = validateToy(req.body)
   if (validBody.error) {
