@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 
-
 import Joi from 'joi'
 
 import mongoose from 'mongoose'
