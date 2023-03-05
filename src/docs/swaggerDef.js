@@ -127,323 +127,363 @@ export const swaggerDef = {
                 }
             }
         },
-            "/toys/id": {
-                delete: {
-                    summary: "Delete a product by ID",
-                    description: "Deletes a single product identified by its ID",
-                    parameters: [
-                        {
-                            id: "id",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
-                            }
+        "/toys/id": {
+            delete: {
+                summary: "Delete a single product by ID",
+                description: "Deletes a single product identified by its ID",
+                parameters: [
+                    {
+                        name: "id",
+                        required: true,
+                        schema: {
+                            type: "integer",
+                            minimum: 1
                         }
-                    ],
-                    responses: {
-                        200: {
-                            description: "A single product",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "Product deleted successfully"
+                    },
+                    404: {
+                        description: "Product not found"
+                    },
+                    500: {
+                        description: "Server error"
+                    }
+                }
+            }
+        },
+        "/toys/search": {
+            get: {
+                summary: "Get a product by name",
+                description: "Returns a single product identified by its name",
+                parameters: [
+                    {
+                        name: "name",
+                        in: "query",
+                        description: "The name of the product to retrieve",
+                        required: true,
+                        schema: {
+                            type: "string"
+                        }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "A single product",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Product"
                                 }
                             }
-                        },
-                        404: {
-                            description: "Product not found"
-                        },
-                        500: {
-                            description: "Server error"
                         }
+                    },
+                    404: {
+                        description: "Product not found"
+                    },
+                    500: {
+                        description: "Server error"
+                    }
+                }
+            }
+        },
+        "/toys/category": {
+            get: {
+                summary: "Get products by category name",
+                description: "Returns a list of products identified by their category name",
+                parameters: [
+                    {
+                        name: "category",
+                        in: "query",
+                        description: "The name of the category to search for",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "List of products",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "array",
+                                    items: {
+                                        $ref: "#/components/schemas/Product",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    404: {
+                        description: "No products found for the given category",
+                    },
+                    500: {
+                        description: "Server error",
+                    },
+                },
+            },
+        },
+        "/toys/:id": {
+            get: {
+                summary: "Get a product by ID",
+                description: "Returns a single product identified by its ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        description: "The ID of the product to retrieve",
+                        required: true,
+                        schema: {
+                            type: "integer",
+                            minimum: 1,
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "A single product",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Product",
+                                },
+                            },
+                        },
+                    },
+                    404: {
+                        description: "Product not found",
+                    },
+                    500: {
+                        description: "Server error",
+                    },
+                },
+            },
+            put: {
+                summary: "Update a product by ID",
+                description: "Updates a single product identified by its ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        description: "The ID of the product to update",
+                        required: true,
+                        schema: {
+                            type: "integer",
+                            minimum: 1,
+                        },
+                    },
+                    {
+                        name: "product",
+                        in: "body",
+                        description: "The updated product data",
+                        required: true,
+                        schema: {
+                            $ref: "#/components/schemas/ProductInput",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "The updated product",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Product",
+                                },
+                            },
+                        },
+                    },
+                    404: {
+                        description: "Product not found",
+                    },
+                    500: {
+                        description: "Server error",
+                    },
+                },
+            },
+            delete: {
+                summary: "Delete a product by ID",
+                description: "Deletes a single product identified by its ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        description: "The ID of the product to delete",
+                        required: true,
+                        schema: {
+                            type: "integer",
+                            minimum: 1,
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "The deleted product",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Product",
+                                },
+                            },
+                        },
+                    },
+                    404: {
+                        description: "Product not found",
+                    },
+                    500: {
+                        description: "Server error",
+                    },
+                },
+            },
+        },
+
+        "/users": {
+            get: {
+                summary: "Get all users",
+                description: "Returns all users",
+                responses: {
+                    200: {
+                        description: "A list of users",
+                        content: {
+                            "application/json": {
+                                // schema: {
+                                //   $ref: "#/components/schemas/User"
+                                // }
+                            }
+                        }
+                    },
+                    404: {
+                        description: "Users not found"
+                    },
+                    500: {
+                        description: "Server error"
                     }
                 }
             },
-            "/toys/search/": {
-                get: {
-                    summary: "Get a product by name",
-                    description: "Returns a single product identified by its name",
-                    parameters: [
-                        {
-                            name: "",
-                            in: "query",
-                            description: "The ID of the product to retrieve",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
-                            }
-                        }
-                    ],
-                    responses: {
-                        200: {
-                            description: "",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
-                            }
-                        },
-                        404: {
-                            description: "Product not found"
-                        },
-                        500: {
-                            description: "Server error"
+            post: {
+                summary: "Create a user",
+                description: "Creates a single user",
+                requestBody: {
+                    content: {
+                        "application/json": {
+                            // schema: {
+                            //   $ref: "#/components/schemas/User"
+                            // }
                         }
                     }
-                }
-            },
-            "/toys/category": {
-                get: {
-                    summary: "Get a product/s by category name",
-                    description: "Returns a numerous amount of products identified by its category name",
-                    parameters: [
-                        {
-                            name: "category",
-                            in: "query",
-                            description: "The name of the product to retrieve",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
+                },
+                responses: {
+                    200: {
+                        description: "A single user",
+                        content: {
+                            "application/json": {
+                                // schema: {
+                                //   $ref: "#/components/schemas/User"
+                                // }
                             }
                         }
-                    ],
-                    responses: {
-                        200: {
-                            description: "Uncertain amount of products",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
-                            }
-                        },
-                        404: {
-                            description: "Product not found"
-                        },
-                        500: {
-                            description: "Server error"
-                        }
+                    },
+                    500: {
+                        description: "Server error"
                     }
                 }
-            },
-            "/toys/single/:id": {
-                get: {
-                    summary: "Get a product by ID",
-                    description: "Returns a single product identified by its ID",
-                    parameters: [
-                        {
-                            id: "productId",
-                            in: "path",
-                            description: "The ID of the product to retrieve",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
-                            }
-                        }
-                    ],
-                    responses: {
-                        200: {
-                            description: "A single product",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
-                            }
-                        },
-                        404: {
-                            description: "Product not found"
-                        },
-                        500: {
-                            description: "Server error"
+            }
+        },
+        "/users/userInfo": {
+            get: {
+                summary: "Get user info by token",
+                description: "Returns a single user identified by their token",
+                parameters: [
+                    {
+                        name: "token",
+                        in: "query",
+                        description: "The token of the user to retrieve",
+                        required: true,
+                        schema: {
+                            type: "string"
                         }
                     }
-                }
-            },
-            "/toys/:id": {
-                put: {
-                    summary: "Changes the body of the product by its id",
-                    description: "Returns a single product identified by its ID",
-                    parameters: [
-                        {
-                            id: "productId",
-                            info: "",
-                            img_url: "",
-                            price: "",
-                            in: "path",
-                            description: "The ID of the product to retrieve",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
+                ],
+                responses: {
+                    200: {
+                        description: "A single user",
+                        content: {
+                            "application/json": {
+                                // schema: {
+                                //   $ref: "#/components/schemas/User"
+                                // }
                             }
                         }
-                    ],
-                    responses: {
-                        200: {
-                            description: "A single product",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
-                            }
-                        },
-                        404: {
-                            description: "Product not found"
-                        },
-                        500: {
-                            description: "Server error"
-                        }
+                    },
+                    401: {
+                        description: "Unauthorized"
+                    },
+                    404: {
+                        description: "User not found"
+                    },
+                    500: {
+                        description: "Server error"
                     }
                 }
-            },
-            "/users": {
-                get: {
-                    summary: "Users endpoint",
-                    description: "",
-                    responses: {
-                        200: {
-                            description: "All users",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
+            }
+        },
+
+        "/users/login": {
+            "post": {
+                "summary": "Log into user",
+                "description": "Returns a token that gives you access to the system",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["email", "password", "role"]
                             }
-                        },
-                        404: {
-                            description: "Users not found"
-                        },
-                        500: {
-                            description: "Server error"
                         }
                     }
-                }
-            },
-            "/users/userInfo": {
-                get: {
-                    summary: "Gives an info about user if you have a token",
-                    description: "Returns a single user by his token",
-                    parameters: [
-                        {
-                            email: "",
-                            password: "",
-                            role: "",
-                            in: "path",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
-                            }
-                        }
-                    ],
-                    responses: {
-                        200: {
-                            description: "A single user",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A token that gives access to the system",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["token"]
                                 }
                             }
-                        },
-                        404: {
-                            description: "User not found"
-                        },
-                        500: {
-                            description: "Server error"
                         }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
-            },
-            "/users/": {
-                post: {
-                    summary: "creates user",
-                    description: "creates a single user",
-                    parameters: [
-                        {
-                            name: "",
-                            email: "",
-                            password: "",
-                            role: "",
-                            in: "path",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
-                            }
-                        }
-                    ],
-                    responses: {
-                        200: {
-                            description: "A single user",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
-                            }
-                        },
-                        404: {
-                            description: "User not found"
-                        },
-                        500: {
-                            description: "Server error"
-                        }
-                    }
-                }
-            },
-            "/users/login": {
-                post: {
-                    summary: "log into user",
-                    description: "Returns token that gives you a right to log in",
-                    parameters: [
-                        {
-                            email: "",
-                            password: "",
-                            role: "",
-                            in: "path",
-                            required: true,
-                            schema: {
-                                type: "integer",
-                                minimum: 1
-                            }
-                        }
-                    ],
-                    responses: {
-                        200: {
-                            description: "A single user",
-                            content: {
-                                "application/json": {
-                                    // schema: {
-                                    //     $ref: "#/components/schemas/Product"
-                                    // }
-                                }
-                            }
-                        },
-                        404: {
-                            description: "User not found"
-                        },
-                        500: {
-                            description: "Server error"
-                        }
-                    }
-                }
-            },
-        }
+            }
+        },
     }
+}
 
