@@ -174,9 +174,6 @@ export const swaggerDef = {
                         description: "A single product",
                         content: {
                             "application/json": {
-                                schema: {
-                                    $ref: "#/components/schemas/Product"
-                                }
                             }
                         }
                     },
